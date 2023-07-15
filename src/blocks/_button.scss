@@ -1,0 +1,46 @@
+.button {
+  position: relative;
+  display: flex;
+  width: 100%;
+  @include gil6;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 8px;
+  background-image: $linear-hover;
+  cursor: pointer;
+  user-select: none;
+  outline: $trans;
+  color: $bg-main;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-image: $linear-accent;
+    transition: .4s;
+  }
+
+  &:hover {
+    color: $bg-main;
+    
+    &::after {
+      opacity: 0;
+    }
+  }
+
+  &:disabled {
+    pointer-events: none;
+    color: gray;
+    
+    &::after {
+      background: #343434;
+    }
+  }
+}
