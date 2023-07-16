@@ -1,0 +1,43 @@
+<header id="top" class="header" #top>
+  <div class="container header__container">
+    <a href="#top" class="logo header__logo nav-link">
+      <svg
+        class="logo__icon"
+        width="157"
+        height="50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <use xlink:href="#logo"></use>
+      </svg>
+    </a>
+    <nav class="menu header__menu">
+      <ul class="menu__list">
+        <li class="menu__item">
+          <a href="#why" class="menu__link nav-link" preventDefault
+            >Почему у нас</a
+          >
+        </li>
+        <li class="menu__item">
+          <a href="#products" class="menu__link nav-link" preventDefault
+            >Меню бургеров</a
+          >
+        </li>
+        <li class="menu__item">
+          <a href="#order" class="menu__link nav-link" preventDefault
+            >Оформление заказа</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <button
+      id="change-currency"
+      type="button"
+      title="Изменить валюту"
+      aria-label="Кнопка: Переключения валюты"
+      class="header__currency"
+      (click)="changeCurrency()"
+    >
+      {{ currency }}
+    </button>
+  </div>
+</header>

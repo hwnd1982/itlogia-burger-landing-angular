@@ -1,17 +1,41 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { CoefficientService } from 'src/services/coefficient/coefficient.service';
+import { CurrencyService } from 'src/services/currency/currency.service';
 
+
+interface Product {
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+  basePrice: number;
+  weight: number;
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 
 export class AppComponent {
+  currency = '';
+  coefficient = 0;
 
-  currency = '$';
-  coefficient = 1;
+  setCurrency(currency: string) {
+    this.currency = currency;
+  }
+
+  setCoefficient(coefficient: number) {
+    this.coefficient = coefficient;
+  }
+
+  ngOnInit(): void {
+    this.currencyService.currency$.subscribe((currency) => this.setCurrency(currency));
+    this.coefficientService.coefficient$.subscribe((coefficient) => this.setCoefficient(coefficient));
+  }
+  
   popupIsOpened = false
 
   form = this.fb.group({
@@ -19,7 +43,8 @@ export class AppComponent {
     name: ['', Validators.required],
     phone: ['', Validators.required],
   })
-  productsData = [
+  
+  public productsData: Product[] = [
     {
       image: '1.png',
       title: 'Бургер чеддер & бекон',
@@ -116,11 +141,9 @@ export class AppComponent {
       basePrice: 9,
       weight: 360,
     },
-  ]
-
-  constructor(private fb: FormBuilder) {}
+  ];
   
-  scrollTo(target: HTMLElement) {
+  public scrollTo(target: HTMLElement) {
     target.scrollIntoView({behavior: 'smooth'});
   }
 
@@ -137,7 +160,7 @@ export class AppComponent {
       overlay.classList.add('_active');
       popup.classList.add('_show');
       popupName.textContent = this.form.value.name || '';
-      popupOrderList.innerHTML = this.form.value.burgers?.split(/\s*\,\s*/g).map(item => `<li class="popup__order-item">${item}</li>`).join(' ') || '';
+      popupOrderList.innerHTML = this.form.value.burgers?.split(/\s*\,\s*/g).map((item:string) => `<li class="popup__order-item">${item}</li>`).join(' ') || '';
       this.form.reset(); 
     }
   }
@@ -147,31 +170,11 @@ export class AppComponent {
     popup.classList.remove('_show');
   }
 
-  changeCurrency() {
-    switch (this.currency) {
-      case '$':
-        this.currency = '₽';
-        this.coefficient = 80;
-        break;
-      case '₽':
-        this.currency = 'BYN';
-        this.coefficient = 3;
-        break;
-      case 'BYN':
-        this.currency = '€';
-        this.coefficient = .9;
-        break;
-      case '€':
-        this.currency = '¥';
-        this.coefficient = 6.9;
-        break;
-      default:
-        this.currency = '$'
-        this.coefficient = 1;
-    }
-
-    this.productsData.forEach(product => product.price = +(product.basePrice * this.coefficient).toFixed(1));
-  }
+  constructor(
+    private fb: FormBuilder,
+    private readonly coefficientService: CoefficientService,
+    private readonly currencyService: CurrencyService,
+  ) {}
 }
 
 
