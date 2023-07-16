@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/itlogia-burger-landing-angular/burgers",
+            "outputPath": "dist/itlogia-burger-landing-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -42,7 +42,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/itlogia-burger-landing-angular/dist/burgers/"
+              "baseHref": "/itlogia-burger-landing-angular/"
             },
             "development": {
               "buildOptimizer": false,
