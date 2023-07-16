@@ -1,4 +1,4 @@
-<app-header [productsData]="productsData"></app-header>
+<app-header [scrollTo]="scrollTo" preventDefault></app-header>
 
 <main class="main-content">
   <section class="main">
@@ -15,7 +15,7 @@
           href="#products"
           type="button"
           class="button main__button nav-link"
-          (click)="scrollTo(products)"
+          (click)="scrollTo($event)"
           >Смотреть меню</a
         >
       </div>
@@ -84,14 +84,14 @@
         <li class="products__item product" *ngFor="let product of productsData">
           <img
             class="product__image"
-            src="./assets/images/burgers/{{ product.image }}"
+            src="{{ product.image }}"
             alt="{{ product.title }}"
           />
           <h3 class="product__title">{{ product.title }}</h3>
           <p class="product__description">{{ product.description }}</p>
           <div class="product__extra">
             <div class="product__info">
-              <p class="product__price">{{ product.price }} {{ currency }}</p>
+              <p class="product__price">{{ product.price * coefficient}} {{ currency }}</p>
               <p class="product__weight">{{ product.weight }} гр</p>
             </div>
             <button
@@ -124,7 +124,7 @@
         class="order__image"
       />
       <form
-        (submit)="confirmOrder(overlay, popup, popupName, popupList)"
+        (submit)="confirmOrder()"
         [formGroup]="form"
         name="order"
         action="https://jsonplaceholder.typicode.com/posts"
@@ -139,17 +139,17 @@
           class="form__input"
           [class]="{
             _error:
-              form.get('burgers')?.invalid &&
-              (form.get('burgers')?.dirty || form.get('burgers')?.touched)
+              form.get('order')?.invalid &&
+              (form.get('order')?.dirty || form.get('order')?.touched)
           }"
         >
           <input
             type="text"
-            name="burgers"
+            name="order"
             class="form__input-item"
             placeholder=" Выберите товар в списке"
             #burgers
-            formControlName="burgers"
+            formControlName="order"
             readonly
             required
           />
@@ -203,7 +203,7 @@
 <!--  -->
 <footer class="footer">
   <div class="container footer__container">
-    <a href="#top" class="logo footer__logo nav-link" preventDefault>
+    <a href="#top" class="logo footer__logo nav-link" (click)="scrollTo($event)" preventDefault>
       <svg
         class="logo__icon"
         width="157"
@@ -288,12 +288,14 @@
   </symbol>
 </svg>
 
-<div class="overlay" #overlay (click)="closePopup(overlay, popup)">
-  <div id="order-is-processed" class="popup" #popup>
+<div class="overlay" #overlay [class]="{_active: popupIsOpened}" (click)="closePopup(overlay, popup)">
+  <div id="order-is-processed" class="popup" [class]="{_show: popupIsOpened}" #popup>
     <p class="popup__title">
-      <span class="popup__name" #popupName></span>, спасибо за заказ!
+      <span class="popup__name" #popupName>{{name}}</span>, спасибо за заказ!
     </p>
-    <ul class="popup__order-list" #popupList></ul>
+    <ul class="popup__order-list" #popupList>
+      <li class="popup__order-item" *ngFor="let item of orderList">{{item}}</li>
+    </ul>
     <p class="popup__message">
       В ближайшее время наш менеджер свяжется с Вами.
     </p>

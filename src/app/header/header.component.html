@@ -1,6 +1,6 @@
 <header id="top" class="header" #top>
   <div class="container header__container">
-    <a href="#top" class="logo header__logo nav-link">
+    <a href="#top" class="logo header__logo nav-link" (click)="scrollTo($event)">
       <svg
         class="logo__icon"
         width="157"
@@ -13,17 +13,17 @@
     <nav class="menu header__menu">
       <ul class="menu__list">
         <li class="menu__item">
-          <a href="#why" class="menu__link nav-link" preventDefault
+          <a href="#why" class="menu__link nav-link" (click)="scrollTo($event)"
             >Почему у нас</a
           >
         </li>
         <li class="menu__item">
-          <a href="#products" class="menu__link nav-link" preventDefault
+          <a href="#products" class="menu__link nav-link" (click)="scrollTo($event)"
             >Меню бургеров</a
           >
         </li>
         <li class="menu__item">
-          <a href="#order" class="menu__link nav-link" preventDefault
+          <a href="#order" class="menu__link nav-link" (click)="scrollTo($event)"
             >Оформление заказа</a
           >
         </li>

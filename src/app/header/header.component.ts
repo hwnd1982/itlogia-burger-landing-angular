@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { CoefficientService } from 'src/services/coefficient/coefficient.service';
 import { CurrencyService } from 'src/services/currency/currency.service';
 
@@ -36,11 +36,9 @@ export class HeaderComponent {
 
   changeCurrency() {
     this.coefficientService.setCoefficient(this.currency);
-    this.productsData?.forEach((product: Product) => product.price = +(product.basePrice * this.coefficient).toFixed(1));
   }
 
-  @Input() scrollTo() {};
-  @Input() productsData: Product[] | undefined;
+  @Input() scrollTo($event: Event) {};
 
   constructor(
     private readonly currencyService: CurrencyService,
