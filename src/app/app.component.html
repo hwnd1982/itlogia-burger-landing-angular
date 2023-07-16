@@ -80,7 +80,7 @@
     </div>
     <div class="container products__container">
       <h2 class="title products__title">выберите свой бургер</h2>
-      <ul class="products__list">
+      <ul class="products__list" *ngIf="!isError">
         <li class="products__item product" *ngFor="let product of productsData">
           <img
             class="product__image"
@@ -88,11 +88,13 @@
             alt="{{ product.title }}"
           />
           <h3 class="product__title">{{ product.title }}</h3>
-          <p class="product__description">{{ product.description }}</p>
+          <p class="product__description">{{ product.text }}</p>
           <div class="product__extra">
             <div class="product__info">
-              <p class="product__price">{{ product.price * coefficient}} {{ currency }}</p>
-              <p class="product__weight">{{ product.weight }} гр</p>
+              <p class="product__price">
+                {{ product.price * coefficient }} {{ currency }}
+              </p>
+              <p class="product__weight">{{ product.grams }} гр</p>
             </div>
             <button
               class="button product__button"
@@ -203,7 +205,12 @@
 <!--  -->
 <footer class="footer">
   <div class="container footer__container">
-    <a href="#top" class="logo footer__logo nav-link" (click)="scrollTo($event)" preventDefault>
+    <a
+      href="#top"
+      class="logo footer__logo nav-link"
+      (click)="scrollTo($event)"
+      preventDefault
+    >
       <svg
         class="logo__icon"
         width="157"
@@ -288,17 +295,29 @@
   </symbol>
 </svg>
 
-<div class="overlay" #overlay [class]="{_active: popupIsOpened}" (click)="closePopup(overlay, popup)">
-  <div id="order-is-processed" class="popup" [class]="{_show: popupIsOpened}" #popup>
+<div
+  class="overlay"
+  #overlay
+  [class]="{ _active: popupIsOpened }"
+  (click)="closePopup(overlay, popup)"
+>
+  <div
+    id="order-is-processed"
+    class="popup"
+    [class]="{ _show: popupIsOpened }"
+    #popup
+  >
     <p class="popup__title">
-      <span class="popup__name" #popupName>{{name}}</span>, спасибо за заказ!
+      <span class="popup__name" #popupName>{{ name }}</span
+      >{{ isError ? "Что-то пошло не&nbsp;так..." : ", ваш&nbsp;заказ:" }}
     </p>
-    <ul class="popup__order-list" #popupList>
-      <li class="popup__order-item" *ngFor="let item of orderList">{{item}}</li>
+
+    <ul class="popup__order-list" *ngIf="!isError">
+      <li class="popup__order-item" *ngFor="let item of orderList">
+        {{ item }}
+      </li>
     </ul>
-    <p class="popup__message">
-      В ближайшее время наш менеджер свяжется с Вами.
-    </p>
+    <p class="popup__message">{{ massage }}</p>
     <button class="popup__cloce button" type="button">Ок</button>
   </div>
 </div>

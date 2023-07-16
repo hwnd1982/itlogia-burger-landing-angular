@@ -4,9 +4,9 @@ import { Injectable } from "@angular/core";
 export interface Product {
   image: string;
   title: string;
-  description: string;
+  text: string;
   price: number;
-  weight: number;
+  grams: number;
 }
 
 @Injectable({
@@ -19,7 +19,7 @@ export class AppService {
   }
 
   getProductsData() {
-    return this.http.get('https://testologia.site/burgers-data')
+    return this.http.get('https://testologia.site/burgers-data?extra=black')
   }
   constructor(private http: HttpClient) {}	
 }
